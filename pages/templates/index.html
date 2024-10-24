@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block main_content %}
+
+<form id="location-form" action="/" method="post" onsubmit="return validateForm()">
+    <div class="flex">
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                   onclick="showCoords('start'); showCoords('finish')" name="location_type">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Ввести широту и долготу</label>
+        </div>
+
+        <div class="mb-3" id="start_1">
+            <label for="start_city" class="form-label">Стартовая точка:</label>
+            <input type="text" class="form-control" id="start_city" name="start_city" placeholder="Введите название города">
+        </div>
+
+        <div style="display: none" id="start_2" class="row">
+            <div class="col-md-6">
+                <label for="latitude_start" class="form-label">Широта стартовой точки</label>
+                <input id="latitude_start" name="latitude_start" type="text" class="form-control" placeholder="Введите широту"
+                pattern="^-?(90(\.0+)?|[1-8]?\d(\.\d+)?)$">
+            </div>
+            <div class="col-md-6">
+                <label for="longitude_start" class="form-label">Долгота стартовой точки</label>
+                <input id="longitude_start" name="longitude_start" type="text" class="form-control" placeholder="Введите долготу"
+                pattern="-?(180(\.0+)?|1[0-7]\d(\.\d+)?|\d{1,2}(\.\d+)?)$">
+            </div>
+        </div>
+    </div>
+
+    <div class="flex">
+        <div class="mb-3" id="finish_1">
+            <label for="finish_city" class="form-label">Конечная точка:</label>
+            <input type="text" class="form-control" id="finish_city" name="finish_city"
+                   placeholder="Введите название города">
+        </div>
+
+        <div style="display: none" id="finish_2" class="row">
+            <div class="col-md-6">
+                <label for="latitude_finish" class="form-label">Широта конечной точки</label>
+                <input id="latitude_finish" name="latitude_finish" type="text"
+                       class="form-control" placeholder="Введите широту"
+                       pattern="^-?(90(\.0+)?|[1-8]?\d(\.\d+)?)$">
+            </div>
+            <div class="col-md-6">
+                <label for="longitude_finish" class="form-label">Долгота конечной точки</label>
+                <input id="longitude_finish" name="longitude_finish" type="text"
+                       class="form-control" placeholder="Введите долготу"
+                       pattern="-?(180(\.0+)?|1[0-7]\d(\.\d+)?|\d{1,2}(\.\d+)?)$">
+            </div>
+        </div>
+    </div>
+
+    <br><br>
+
+    <button type="submit" class="btn btn-primary">Отправить</button>
+</form>
+
+
+<script>
+    function showCoords(id){
+        const coords = document.getElementById(`${id}_2`);
+        const city = document.getElementById(`${id}_1`);
+        flag = coords.style.display;
+        if (flag == 'none'){
+            coords.style.display = 'block';
+            city.style.display = 'none';
+        } else {
+            coords.style.display = 'none';
+            city.style.display = 'block';
+        }
+    }
+
+    function validateForm() {
+        const startCity = document.getElementById('start_city').value.trim();
+        const finishCity = document.getElementById('finish_city').value.trim();
+        const latitudeStart = document.getElementById('latitude_start').value.trim();
+        const longitudeStart = document.getElementById('longitude_start').value.trim();
+        const latitudeFinish = document.getElementById('latitude_finish').value.trim();
+        const longitudeFinish = document.getElementById('longitude_finish').value.trim();
+
+        // Проверка, заполнены ли либо города, либо координаты
+        if (
+            (startCity === '' || finishCity === '') &&
+            (latitudeStart === '' || longitudeStart === '' || latitudeFinish === '' || longitudeFinish === '')
+        ) {
+            alert("Пожалуйста, заполните либо названия городов, либо координаты.");
+            return false; // Отменяем отправку формы
+        }
+
+        return true; // Разрешаем отправку формы, если всё корректно
+    }
+</script>
+{% endblock %}

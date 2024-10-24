@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block main_content %}
+
+<div class="container mt-4">
+    <!-- Навигация по вкладкам -->
+    <ul class="nav nav-tabs" id="weatherTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="tab-1" data-bs-toggle="tab" data-bs-target="#weather-1" type="button"
+                    role="tab" aria-controls="weather-1"
+                    aria-selected="true">{{ weather[0][0].location.name }}</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tab-2" data-bs-toggle="tab" data-bs-target="#weather-2" type="button"
+                    role="tab" aria-controls="weather-2" aria-selected="false">
+                {{ weather[1][0].location.name }}
+                </button>
+        </li>
+    </ul>
+
+    <!-- Содержимое вкладок -->
+    <div class="tab-content" id="weatherTabsContent">
+        <!-- Вкладка 1 - weather[0] -->
+        <div class="tab-pane fade show active" id="weather-1" role="tabpanel" aria-labelledby="tab-1">
+            <div class="row">
+                {% for item in weather[0] %}
+                <div class="col-md-4">
+                    <div class="card mb-4 {{ item.error_code }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.day }} {{ item.day_part }}</h5>
+                            <p class="card-text" style="font-weight: bold;">Описание: {{ item.msg }}</p>
+                            <p class="card-text">Температура: {{ item.temp }}°C</p>
+                            <p class="card-text">Скорость ветра: {{ item.wind_speed }} км/ч</p>
+                            <p class="card-text">Влажность: {{ item.humidity }}%</p>
+                            <p class="card-text">Вероятность дождя: {{ item.rain_p }}%</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Вкладка 2 - weather[1] -->
+        <div class="tab-pane fade" id="weather-2" role="tabpanel" aria-labelledby="tab-2">
+            <div class="row">
+                {% for item in weather[1] %}
+                <div class="col-md-4">
+                    <div class="card mb-4 {{ item.error_code }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.day }} {{ item.day_part }}</h5>
+                            <p class="card-text" style="font-weight: bold;">Описание: {{ item.msg }}</p>
+                            <p class="card-text">Температура: {{ item.temp }}°C</p>
+                            <p class="card-text">Скорость ветра: {{ item.wind_speed }} км/ч</p>
+                            <p class="card-text">Влажность: {{ item.humidity }}%</p>
+                            <p class="card-text">Вероятность дождя: {{ item.rain_p }}%</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
